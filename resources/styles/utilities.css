@@ -1,0 +1,45 @@
+.hover-lift {
+	transition: transform var(--rp-transition-fast);
+}
+
+.hover-lift:hover {
+	transform: translateY(-2px);
+}
+
+.hover-glow-primary {
+	transition: box-shadow var(--rp-transition-fast);
+}
+
+.hover-glow-primary:hover {
+	box-shadow: 0 0 20px rgba(var(--wp--preset--color--accent-1), 0.3);
+}
+
+.hover-glow-accent {
+	transition: box-shadow var(--rp-transition-fast);
+}
+
+.hover-glow-accent:hover {
+	box-shadow: 0 0 20px rgba(var(--wp--preset--color--accent-2), 0.3);
+}
+
+.text-gradient {
+	background: linear-gradient(135deg, var(--wp--preset--color--accent-1), var(--wp--preset--color--accent-2));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+:where(.wp-site-blocks *:focus) {
+	outline-width: 2px;
+	outline-style: solid;
+}
+
+::selection {
+	background: var(--wp--preset--color--accent-2);
+	color: var(--wp--preset--color--base);
+}
+
+::moz-selection {
+	background: var(--wp--preset--color--accent-2);
+	color: var(--wp--preset--color--base);
+}

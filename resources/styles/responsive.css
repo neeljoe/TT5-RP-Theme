@@ -1,0 +1,23 @@
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+
+	.animate-on-scroll,
+	.fade-up,
+	.fade-in,
+	.stagger-children > * {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (max-width: 768px) {
+	.stagger-children > * {
+		transition-delay: 0ms !important;
+	}
+}

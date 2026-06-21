@@ -1,0 +1,8 @@
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.wp-site-blocks footer {
+	margin-top: auto;
+}

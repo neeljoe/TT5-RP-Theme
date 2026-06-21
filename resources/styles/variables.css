@@ -1,0 +1,5 @@
+:root {
+	--rp-transition-fast: 150ms ease;
+	--rp-transition-normal: 300ms ease;
+	--rp-transition-slow: 500ms ease;
+}
