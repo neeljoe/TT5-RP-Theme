@@ -527,7 +527,9 @@
 						},
 						"typography": {
 							"textDecoration": "none",
-								"fontWeight": "500"
+								"fontWeight": "500",
+								"textTransform": "uppercase",
+								"fontSize": "var(--wp--preset--font-size--small)"
 						}
 					}
 				},
