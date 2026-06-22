@@ -3,6 +3,17 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+
 .wp-site-blocks footer {
 	margin-top: auto;
+}
+header.wp-block-template-part {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	background: var(--wp--preset--color--base);
+}
+
+.site-header {
+	position: relative;
 }

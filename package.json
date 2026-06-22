@@ -14,6 +14,7 @@
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^32.1.0",
+		"cross-env": "^10.1.0",
 		"cssnano": "^7.1.2",
 		"postcss": "^8.5.6",
 		"postcss-cli": "^11.0.1",
@@ -24,7 +25,7 @@
 		"start": "wp-scripts start & postcss resources/styles/style.css -o public/style.css --watch",
 		"build": "npm run build:styles && npm run build:js",
 		"build:js": "wp-scripts build",
-		"build:styles": "NODE_ENV=production postcss resources/styles/style.css -o public/style.css",
+		"build:styles": "cross-env NODE_ENV=production postcss resources/styles/style.css -o public/style.css",
 		"watch:styles": "postcss resources/styles/style.css -o public/style.css --watch"
 	}
 }
