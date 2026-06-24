@@ -853,7 +853,7 @@
 						"textDecoration": "none"
 					},
 									"color": {
-					"text": "var(--wp--preset--color--dark-orange)"
+					"text": "var(--wp--preset--color--accent-3)"
 				}
 				},
 				"color": {
