@@ -60,12 +60,12 @@
 				{
 					"color": "#8ecae6",
 					"name": "light-blue",
-					"slug": "custom-light-blue"
+					"slug": "light-blue"
 				},
 				{
 					"color": "#fb8500",
 					"name": "dark-orange",
-					"slug": "custom-dark-orange"
+					"slug": "dark-orange"
 				}
 			]
 		},
@@ -523,7 +523,13 @@
 						":hover": {
 							"typography": {
 								"textDecoration": "none"
-							}
+							},
+												"color": {
+							"text": "var(--wp--preset--color-accent-1)"
+						}
+						},
+								"color": {
+							"text": "var(--wp--preset--color-)"
 						},
 						"typography": {
 							"textDecoration": "none",
@@ -532,9 +538,6 @@
 								"fontSize": "var(--wp--preset--font-size--small)"
 						}
 					}
-				},
-				"typography": {
-					"fontSize": "var(--wp--preset--font-size--medium)"
 				}
 			},
 			"core/post-comments-form": {
@@ -729,11 +732,17 @@
 						":hover": {
 							"typography": {
 								"textDecoration": "none"
-							}
+							},
+													"color": {
+					"text": "var(--wp--preset--color--dark-accent-3)"
+				}
 						},
 						"typography": {
 							"textDecoration": "none"
-						}
+						},
+								"color": {
+					"text": "var(--wp--preset--color--accent-4)"
+				}
 					}
 				},
 				"typography": {
@@ -844,7 +853,7 @@
 						"textDecoration": "none"
 					},
 									"color": {
-					"text": "var(--wp--preset--color--accent-3)"
+					"text": "var(--wp--preset--color--dark-orange)"
 				}
 				},
 				"color": {
