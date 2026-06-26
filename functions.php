@@ -9,6 +9,8 @@
  * @since rp-theme 1.0
  */
 
+require_once get_theme_file_path( 'inc/categories.php' );
+
 if ( ! function_exists( 'rp_theme_post_format_setup' ) ) :
 	/**
 	 * Adds theme support for post formats.
