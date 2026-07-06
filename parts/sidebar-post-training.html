@@ -1,0 +1,40 @@
+<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"flex","orientation":"vertical"}} -->
+<div class="wp-block-group">
+	<!-- wp:heading {"level":3,"fontSize":"large"} -->
+	<h3 class="wp-block-heading has-large-font-size">Training Plans</h3>
+	<!-- /wp:heading -->
+	<!-- wp:paragraph {"fontSize":"small"} -->
+	<p class="has-small-font-size">Not sure which plan fits your goal?</p>
+	<!-- /wp:paragraph -->
+	<!-- wp:list {"style":{"typography":{"fontSize":"small"}}} -->
+	<ul style="font-size:small">
+		<li><strong>5K</strong> — 8 weeks, 3 runs/week</li>
+		<li><strong>10K</strong> — 10 weeks, 4 runs/week</li>
+		<li><strong>Half Marathon</strong> — 12 weeks, 4-5 runs/week</li>
+		<li><strong>Marathon</strong> — 18 weeks, 5 runs/week</li>
+	</ul>
+	<!-- /wp:list -->
+
+	<!-- wp:separator /-->
+
+	<!-- wp:heading {"level":3,"fontSize":"large"} -->
+	<h3 class="wp-block-heading has-large-font-size">Pace Calculator</h3>
+	<!-- /wp:heading -->
+	<!-- wp:paragraph {"fontSize":"small"} -->
+	<p class="has-small-font-size">Use a pace calculator to find your target paces for easy runs, tempo runs, and intervals based on your recent race time.</p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:separator /-->
+
+	<!-- wp:heading {"level":3,"fontSize":"large"} -->
+	<h3 class="wp-block-heading has-large-font-size">Latest Training Articles</h3>
+	<!-- /wp:heading -->
+	<!-- wp:query {"queryId":2,"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true}} -->
+	<div class="wp-block-query">
+		<!-- wp:post-template {"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"default"}} -->
+			<!-- wp:post-title {"level":4,"isLink":true,"fontSize":"medium"} /-->
+		<!-- /wp:post-template -->
+	</div>
+	<!-- /wp:query -->
+</div>
+<!-- /wp:group -->

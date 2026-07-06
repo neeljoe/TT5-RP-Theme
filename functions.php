@@ -10,6 +10,7 @@
  */
 
 require_once get_theme_file_path( 'inc/categories.php' );
+require_once get_theme_file_path( 'inc/dynamic-template-parts.php' );
 
 if ( ! function_exists( 'rp_theme_post_format_setup' ) ) :
 	/**
