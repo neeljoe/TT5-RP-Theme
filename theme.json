@@ -70,8 +70,8 @@
 			]
 		},
 		"layout": {
-			"contentSize": "645px",
-			"wideSize": "1340px"
+			"contentSize": "720px",
+			"wideSize": "1200px"
 		},
 		"spacing": {
 			"defaultSpacingSizes": false,
