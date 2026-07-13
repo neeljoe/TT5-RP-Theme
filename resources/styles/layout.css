@@ -17,3 +17,6 @@ header.wp-block-template-part {
 .site-header {
 	position: relative;
 }
+.test-overflow {
+	overflow: hidden;
+}
