@@ -525,11 +525,11 @@
 								"textDecoration": "none"
 							},
 												"color": {
-							"text": "var(--wp--preset--color-accent-1)"
+							"text": "var(--wp--preset--color--accent-1)"
 						}
 						},
 								"color": {
-							"text": "var(--wp--preset--color-)"
+							"text": "var(--wp--preset--color--contrast)"
 						},
 						"typography": {
 							"textDecoration": "none",
@@ -877,7 +877,7 @@
 			"fontSize": "var(--wp--preset--font-size--medium)",
 			"fontStyle": "normal",
 			"fontWeight": "300",
-			"letterSpacing": "-0.1.5px",
+			"letterSpacing": "-0.15px",
 			"lineHeight": "1.4"
 		}
 	},
