@@ -16,7 +16,7 @@
 <div class="wp-block-group alignwide test-overflow has-border-color has-accent-4-border-color" style="border-width:1px;border-top-left-radius:32px;border-top-right-radius:32px;border-bottom-left-radius:32px;border-bottom-right-radius:32px"><!-- wp:columns {"align":"wide"} -->
 <div class="wp-block-columns alignwide"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="http://runpartner.local/wp-content/themes/TT5-RP-Theme/assets/images/new-hero.jpg" alt="Runner on a trail"/></figure>
+<figure class="wp-block-image size-large"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/new-hero.jpg' ) ); ?>" alt="<?php echo esc_attr_x( 'Runner on a trail', 'Hero image alt text', 'rp-theme' ); ?>"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
