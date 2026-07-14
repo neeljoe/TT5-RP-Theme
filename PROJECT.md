@@ -58,12 +58,12 @@ TT5-RP-Theme/
 │   │   ├── lato/                      # Body font (10 files, wts 100-900)
 │   │   ├── manrope/                   # Alternate (variable font)
 │   │   └── montserrat/               # Headings font (7 files, wts 300-900)
-│   └── images/                        # 38 .webp + 2 .jpg assets
+│   └── images/                        # 2 assets (new-hero.jpg, 404-image.webp)
 ├── inc/
 │   ├── categories.php                 # Auto-seeds 12 running categories
 │   └── dynamic-template-parts.php     # render_block_data filter for category swaps
 ├── parts/                             # 23 template parts (.html)
-├── patterns/                          # 6 active patterns (.php)
+├── patterns/                          # 14 active patterns (.php)
 ├── public/                            # Built/minified output
 │   ├── js/
 │   │   ├── interactivity.js           # Compiled ES module
@@ -502,7 +502,7 @@ Located in `styles/blocks/`:
 
 | Plugin | Version | Purpose | Blocks? | Critical? |
 |--------|---------|---------|---------|-----------|
-| **RP-Multi-Block** | 2.1.0 | Custom navigation blocks for theme header | 4 (`disney/*`) | **YES** |
+| **RP-Multi-Block** | 2.1.0 | Custom navigation blocks for theme header | 4 (`rp-multi-block/*`) | **YES** |
 | **Novamira** | 1.9.0 | MCP server for AI agent WordPress access | None | Dev tool |
 | **Instant Images** | 7.2.0 | Stock photo uploads (Unsplash, Pexels, etc.) | 1 (license-gated) | Utility |
 | **WordPress Importer** | 0.9.5 | WXR content import | None | Cleanup candidate |
@@ -512,10 +512,10 @@ Located in `styles/blocks/`:
 ```
 TT5-RP-Theme
     └── patterns/header.php
-            ├── wp:disney/search-toggle    ← RP-Multi-Block
-            ├── wp:disney/mobile-menu-toggle ← RP-Multi-Block
-            ├── wp:disney/search-panel      ← RP-Multi-Block
-            └── wp:disney/mobile-menu       ← RP-Multi-Block
+            ├── wp:rp-multi-block/search-toggle    ← RP-Multi-Block
+            ├── wp:rp-multi-block/mobile-menu-toggle ← RP-Multi-Block
+            ├── wp:rp-multi-block/search-panel      ← RP-Multi-Block
+            └── wp:rp-multi-block/mobile-menu       ← RP-Multi-Block
 ```
 
 The theme **cannot function properly** without RP-Multi-Block active — the header will have missing blocks.
@@ -530,7 +530,7 @@ The theme **cannot function properly** without RP-Multi-Block active — the hea
 |----------|-------|
 | Plugin Name | RP Advanced Multi Block |
 | Version | 2.1.0 |
-| Namespace | `disney/` (legacy name) |
+| Namespace | `rp-multi-block/` |
 | Scaffolded with | `@wordpress/create-block` interactive template |
 | WP Requires | 6.8+ |
 | PHP Requires | 7.4+ |
@@ -539,10 +539,10 @@ The theme **cannot function properly** without RP-Multi-Block active — the hea
 
 | Block | Slug | Purpose |
 |-------|------|---------|
-| Mobile Menu Toggle | `disney/mobile-menu-toggle` | Hamburger button, toggles mobile menu |
-| Mobile Menu | `disney/mobile-menu` | Accordion panel with Learn/Gears subsections |
-| Search Toggle | `disney/search-toggle` | Button that opens sliding search panel |
-| Search Panel | `disney/search-panel` | Sliding search form |
+| Mobile Menu Toggle | `rp-multi-block/mobile-menu-toggle` | Hamburger button, toggles mobile menu |
+| Mobile Menu | `rp-multi-block/mobile-menu` | Accordion panel with Learn/Gears subsections |
+| Search Toggle | `rp-multi-block/search-toggle` | Button that opens sliding search panel |
+| Search Panel | `rp-multi-block/search-panel` | Sliding search form |
 
 ### Block Registration Pattern
 
@@ -567,7 +567,7 @@ if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) ) {
 
 ### Interactivity API Architecture
 
-All 4 blocks share a **single Interactivity API store** named `'disney'`:
+All 4 blocks share a **single Interactivity API store** named `'rp-multi-block'`:
 
 | State Property | Set By | Purpose |
 |----------------|--------|---------|
@@ -583,8 +583,8 @@ All 4 blocks share a **single Interactivity API store** named `'disney'`:
 ### Server-Side Rendering
 
 Each block has a `render.php` that:
-1. Initializes state via `wp_interactivity_state('disney', ...)`
-2. Outputs HTML with `data-wp-interactive="disney"` directive
+1. Initializes state via `wp_interactivity_state('rp-multi-block', ...)`
+2. Outputs HTML with `data-wp-interactive="rp-multi-block"` directive
 3. Uses `data-wp-on--click`, `data-wp-bind--hidden`, `data-wp-class--*` directives
 4. Uses `getContext()` and `getElement()` for context-aware behavior
 
@@ -596,7 +596,7 @@ src/
 ├── frontend-script.js            # Frontend-wide script (placeholder)
 └── blocks/
     ├── mobile-menu-toggle/
-    │   ├── block.json            # disney/mobile-menu-toggle
+    │   ├── block.json            # rp-multi-block/mobile-menu-toggle
     │   ├── index.js              # Client-side registration
     │   ├── edit.js               # Editor preview
     │   ├── render.php            # Server-side render + Interactivity API
@@ -637,10 +637,10 @@ The theme's header (`patterns/header.php`) is the integration point:
 │                                    toggle  toggle │
 ├─────────────────────────────────────────────────┤
 │  [Search Panel — sliding]                        │
-│  ↑ disney/search-panel                          │
+│  ↑ rp-multi-block/search-panel                          │
 ├─────────────────────────────────────────────────┤
 │  [Mobile Menu — accordion, hidden on desktop]    │
-│  ↑ disney/mobile-menu                           │
+│  ↑ rp-multi-block/mobile-menu                           │
 │    ├── Learn (barefoot running, running form,    │
 │    │         science)                            │
 │    ├── Gears (trail running shoes, running shoes)│
@@ -652,10 +652,10 @@ The theme's header (`patterns/header.php`) is the integration point:
 ### Block References in Header Pattern
 
 ```html
-<!-- wp:disney/search-toggle /-->
-<!-- wp:disney/mobile-menu-toggle /-->
-<!-- wp:disney/search-panel /-->
-<!-- wp:disney/mobile-menu {"metadata":{"blockVisibility":{"viewport":{"desktop":false}}}} /-->
+<!-- wp:rp-multi-block/search-toggle /-->
+<!-- wp:rp-multi-block/mobile-menu-toggle /-->
+<!-- wp:rp-multi-block/search-panel /-->
+<!-- wp:rp-multi-block/mobile-menu {"metadata":{"blockVisibility":{"viewport":{"desktop":false}}}} /-->
 ```
 
 The mobile menu is hidden on desktop via `blockVisibility.viewport.desktop: false`.
@@ -683,27 +683,6 @@ User clicks "Learn" in mobile menu (mobile-menu)
 
 ## 13. Known Issues & Gotchas
 
-### Parent Theme Dependency
-
-Templates reference `twentytwentyfive/*` patterns that are defined in the **parent theme**, not in this theme:
-
-| Pattern Slug | Referenced In |
-|--------------|--------------|
-| `twentytwentyfive/template-query-loop` | index.html, home.html, archive.html, search.html |
-| `twentytwentyfive/hidden-blog-heading` | index.html, home.html |
-| `twentytwentyfive/hidden-search` | search.html |
-| `twentytwentyfive/more-posts` | search.html, single.html |
-| `twentytwentyfive/hidden-written-by` | single.html |
-| `twentytwentyfive/post-navigation` | single.html |
-| `twentytwentyfive/comments` | single.html |
-| `twentytwentyfive/hidden-404` | 404.html |
-
-If Twenty Twenty-Five is deactivated, these templates will break.
-
-### "disney" Namespace
-
-The RP-Multi-Block plugin uses `disney/` as its block namespace. This is a legacy/placeholder name from initial development. All Interactivity API stores, `data-wp-interactive` attributes, and block registrations use this namespace.
-
 ### Category Seeding
 
 The `after_switch_theme` hook runs only once. Categories created by `inc/categories.php` exist, but the corresponding template part files (e.g., `sidebar-post-{category}.html`) must exist in `parts/` for the dynamic swap to work. New categories won't automatically have matching template parts.
@@ -712,13 +691,9 @@ The `after_switch_theme` hook runs only once. Categories created by `inc/categor
 
 RP-Multi-Block keeps source files for 3 deprecated blocks (`event-location`, `event-month`, `event-distances`) but explicitly excludes them from registration. These are dead code in the `src/` directory.
 
-### Image Assets
+### Database Block Name Migration
 
-The theme ships with 38 images in `assets/images/`. Most are inherited from Twenty Twenty-Five and may not be relevant to RunPartner content (flowers, buildings, ruins, etc.).
-
-### readme.txt PHP Version
-
-`readme.txt` says `Requires PHP: 5.7` while `style.css` says `Requires PHP: 7.2`. The `style.css` value is correct.
+After renaming `disney/` to `rp-multi-block/` in the plugin, existing posts containing `disney/*` block references in `post_content` will need a database search-replace: `disney/` → `rp-multi-block/`.
 
 ---
 
@@ -842,7 +817,3 @@ The dynamic swap system could be extended to headers and footers — e.g., a `he
 ### Deprecated Blocks Cleanup
 
 RP-Multi-Block keeps 3 deprecated block source files (`event-location`, `event-month`, `event-distances`) that are excluded from registration. These could be removed from `src/` or documented with a deprecation notice.
-
-### readme.txt PHP Version
-
-`readme.txt` lists `Requires PHP: 5.7` — should be corrected to `7.2` to match `style.css`.
