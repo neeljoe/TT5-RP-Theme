@@ -32,7 +32,7 @@
 <!-- /wp:group -->
 
 <!-- wp:paragraph {"style":{"elements":{"link":{"color":{"text":"var:preset|color|contrast"}}}},"textColor":"contrast","fontSize":"large"} -->
-<p class="has-contrast-color has-text-color has-link-color has-large-font-size">Whether you're preparing for your first 5K or your next marathon, RunPartner helps you understand training, improve your technique, choose the right gear, and enjoy running with confidence.</p>
+<p class="has-contrast-color has-text-color has-link-color has-large-font-size">Whether you're preparing for your first 5K or your next marathon, runpartner helps you understand training, improve your technique, choose the right gear, and enjoy running with confidence.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons -->
