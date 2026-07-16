@@ -874,7 +874,7 @@
 		},
 		"typography": {
 			"fontFamily": "var(--wp--preset--font-family--lato)",
-			"fontSize": "var(--wp--preset--font-size--small)",
+			"fontSize": "var(--wp--preset--font-size--medium)",
 			"fontStyle": "normal",
 			"fontWeight": "300",
 			"letterSpacing": "-0.15px",
