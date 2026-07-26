@@ -29,7 +29,7 @@
 	background-clip: text;
 }
 
-:where(.wp-site-blocks *:focus) {
+:where(.wp-site-blocks *:focus-visible) {
 	outline-width: 2px;
 	outline-style: solid;
 }

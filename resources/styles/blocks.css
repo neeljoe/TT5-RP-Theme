@@ -69,3 +69,15 @@ blockquote::before {
 	width: 100%;
 	height: 100%;
 }
+
+.wp-block-post-template .wp-block-cover {
+	overflow: hidden;
+}
+
+.wp-block-post-template .wp-block-cover img {
+	transition: transform var(--rp-transition-slow);
+}
+
+.wp-block-post-template .wp-block-cover:hover img {
+	transform: scale(1.05);
+}
