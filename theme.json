@@ -8,7 +8,14 @@
 				"page"
 			],
 			"title": "Page No Title"
-		}
+		},
+		        {
+            "name": "learn",
+            "postTypes": [
+                "page"
+            ],
+            "title": "Learn"
+        }
 	],
 	"settings": {
 		"appearanceTools": true,
