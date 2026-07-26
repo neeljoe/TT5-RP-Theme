@@ -502,7 +502,7 @@ Located in `styles/blocks/`:
 
 | Plugin | Version | Purpose | Blocks? | Critical? |
 |--------|---------|---------|---------|-----------|
-| **RP-Multi-Block** | 2.1.0 | Custom navigation blocks for theme header | 4 (`rp-multi-block/*`) | **YES** |
+| **RP-Multi-Block** | 2.1.0 | Custom navigation + utility blocks for theme | 6 (`rp-multi-block/*`) | **YES** |
 | **Novamira** | 1.9.0 | MCP server for AI agent WordPress access | None | Dev tool |
 | **Instant Images** | 7.2.0 | Stock photo uploads (Unsplash, Pexels, etc.) | 1 (license-gated) | Utility |
 | **WordPress Importer** | 0.9.5 | WXR content import | None | Cleanup candidate |
@@ -543,6 +543,8 @@ The theme **cannot function properly** without RP-Multi-Block active — the hea
 | Mobile Menu | `rp-multi-block/mobile-menu` | Accordion panel with Learn/Gears subsections |
 | Search Toggle | `rp-multi-block/search-toggle` | Button that opens sliding search panel |
 | Search Panel | `rp-multi-block/search-panel` | Sliding search form |
+| Category Carousel | `rp-multi-block/category-carousel` | Horizontal carousel of category cards with featured post images |
+| Pace Calculator | `rp-multi-block/pace-calculator` | Running pace calculator with finish time tables |
 
 ### Block Registration Pattern
 
@@ -567,7 +569,7 @@ if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) ) {
 
 ### Interactivity API Architecture
 
-All 4 blocks share a **single Interactivity API store** named `'rp-multi-block'`:
+All 6 blocks share a **single Interactivity API store** named `'rp-multi-block'`:
 
 | State Property | Set By | Purpose |
 |----------------|--------|---------|
@@ -575,10 +577,17 @@ All 4 blocks share a **single Interactivity API store** named `'rp-multi-block'`
 | `isSearchOpen` | `search-toggle` | Controls search panel visibility |
 | `learnOpen` | `mobile-menu` | Controls "Learn" accordion |
 | `gearsOpen` | `mobile-menu` | Controls "Gears" accordion |
+| `carousel.currentPage` | `category-carousel` | Current carousel page index |
 
 **Cross-block state management:**
 - Toggling mobile menu closes search (`state.isSearchOpen = false`)
 - Toggling search closes mobile menu (`state.mobileMenuOpen = false`)
+
+**Pace Calculator context** (per-instance, not shared state):
+- `paceMinutes`, `paceSeconds` — User input pace
+- `unit` — `'km'` or `'mi'`
+- `showFullTable` — Expanded 1K–50K breakdown visibility
+- `showAllColumns` — Mobile column toggle
 
 ### Server-Side Rendering
 
@@ -592,7 +601,7 @@ Each block has a `render.php` that:
 
 ```
 src/
-├── editor-script.js              # Editor-wide script (placeholder)
+├── editor-script.js              # Editor-wide script (carousel featured panel)
 ├── frontend-script.js            # Frontend-wide script (placeholder)
 └── blocks/
     ├── mobile-menu-toggle/
@@ -609,10 +618,143 @@ src/
     ├── mobile-menu/
     │   ├── block.json, index.js, edit.js, render.php, view.js
     │   ├── style.scss, editor.scss
-    └── search-panel/
-        ├── block.json, index.js, edit.js, render.php, view.js
-        ├── style.scss, editor.scss, README.md
+    ├── search-panel/
+    │   ├── block.json, index.js, edit.js, render.php, view.js
+    │   ├── style.scss, editor.scss, README.md
+    ├── category-carousel/
+    │   ├── block.json            # rp-multi-block/category-carousel
+    │   ├── index.js              # Client-side registration
+    │   ├── edit.js               # Editor preview
+    │   ├── render.php            # Server-side render (category query, carousel markup)
+    │   ├── view.js               # Frontend: carousel navigation, autoplay, pause/resume
+    │   ├── style.scss            # Carousel card, track, dots, arrows, responsive
+    │   └── editor.scss           # Editor-only styles
+    └── pace-calculator/
+        ├── block.json            # rp-multi-block/pace-calculator
+        ├── index.js              # Client-side registration
+        ├── edit.js               # Editor preview
+        ├── render.php            # Server-side render (pace tables, Interactivity API directives)
+        ├── view.js               # Frontend: pace calculation, unit toggle, table rendering
+        ├── style.scss            # Pace inputs, tables, responsive
+        └── editor.scss           # Editor-only styles
 ```
+
+### Category Carousel Block
+
+| Property | Value |
+|----------|-------|
+| **Slug** | `rp-multi-block/category-carousel` |
+| **Purpose** | Horizontal carousel of category cards with featured post images |
+| **Query** | Top 9 categories by post count (with posts) |
+| **Featured Post** | Looks for `_rp_carousel_featured` meta, falls back to latest post |
+| **Card Content** | Category name, post title, featured image (medium_large), article count |
+| **Navigation** | Prev/next arrows, dot pagination, autoplay (5s interval) |
+| **Behavior** | Pause on hover, scroll snap, responsive (3→2→1 cards) |
+| **Accessibility** | `prefers-reduced-motion` disables autoplay |
+
+#### How It Works
+
+1. `render.php` queries categories with posts, sorted by count (top 9)
+2. For each category, queries for a post with `_rp_carousel_featured` meta
+3. Falls back to latest post if no featured post exists
+4. Outputs carousel markup with Interactivity API directives
+5. `view.js` initializes autoplay, handles navigation actions
+
+#### Interactivity API
+
+| Type | Name | Purpose |
+|------|------|---------|
+| State | `carousel.currentPage` | Current carousel page index |
+| Action | `carouselPrev` | Scroll to previous card |
+| Action | `carouselNext` | Scroll to next card |
+| Action | `carouselGoTo` | Scroll to specific page (dot click) |
+| Action | `pauseCarousel` | Stop autoplay on hover |
+| Action | `resumeCarousel` | Restart autoplay on mouse leave |
+| Callback | `initCarousel` | Start autoplay intervals on load |
+
+#### Post Meta
+
+| Meta Key | Type | Purpose |
+|----------|------|---------|
+| `_rp_carousel_featured` | boolean | Marks a post as featured for its category in the carousel |
+
+Registered in `advanced-multi-block.php` via `register_post_meta()`. Editor panel in `editor-script.js` adds a "Category Carousel" toggle to the post sidebar.
+
+#### Styling
+
+- Cards: 33.333% width on desktop, 50% on tablet, 100% on mobile
+- Scroll snap for smooth card alignment
+- Prev/next arrows: circular, positioned absolutely over track
+- Dot navigation: centered below carousel
+- Hover effect: `translateY(-2px)` on cards
+- Reduced motion: disables autoplay and transitions
+
+---
+
+### Pace Calculator Block
+
+| Property | Value |
+|----------|-------|
+| **Slug** | `rp-multi-block/pace-calculator` |
+| **Purpose** | Interactive running pace calculator with finish time tables |
+| **Input** | Pace (min:sec per km or mile) |
+| **Key Distances** | 5K, 10K, Half Marathon, Marathon |
+| **Full Table** | Expandable 1K–50K breakdown |
+| **Offsets** | Shows finish times at ±5, ±10 seconds from input pace |
+| **Unit Toggle** | Switch between km and mi |
+| **Responsive** | Hides outer columns on mobile, toggle to show all |
+
+#### How It Works
+
+1. `render.php` outputs two tables (key distances + full breakdown) with initial values
+2. `view.js` watches context changes and re-renders tables via `innerHTML`
+3. User inputs pace in minutes:seconds
+4. Tables update in real-time showing finish times at ±5, ±10 sec offsets
+5. Center column (user's pace) is highlighted
+6. Race distances (5K, 10K, Half, Marathon) highlighted in gold
+
+#### Interactivity API
+
+| Type | Name | Purpose |
+|------|------|---------|
+| Context | `paceMinutes` | User input: pace minutes |
+| Context | `paceSeconds` | User input: pace seconds |
+| Context | `unit` | `'km'` or `'mi'` |
+| Context | `showFullTable` | Expanded 1K–50K breakdown visibility |
+| Context | `showAllColumns` | Mobile column toggle |
+| State | `unitLabel` | Current unit display (`km` or `mi`) |
+| State | `unitToggleLabel` | Toggle button text |
+| State | `toggleLabel` | Expand/collapse button text |
+| State | `columnsToggleLabel` | Show more/less button text |
+| State | `col0`–`col4` | Column header pace values |
+| Action | `setPaceMinutes` | Update pace minutes from input |
+| Action | `setPaceSeconds` | Update pace seconds from input |
+| Action | `toggleUnit` | Switch between km/mi |
+| Action | `toggleFullTable` | Expand/collapse full breakdown |
+| Action | `toggleAllColumns` | Show/hide outer columns on mobile |
+| Callback | `renderRows` | Re-render all tables when context changes |
+
+#### Distances
+
+| Distance | Label | km | mi | Race? |
+|----------|-------|-----|-----|-------|
+| 5K | 5K | 5 | 3.107 | ✅ |
+| 10K | 10K | 10 | 6.214 | ✅ |
+| Half Marathon | Half Marathon | 21.0975 | 13.109 | ✅ |
+| Marathon | Marathon | 42.195 | 26.219 | ✅ |
+| 1K–50K | {N}K | 1–50 | — | Only above |
+
+#### Styling
+
+- Max width: 720px
+- Pace inputs: Fira Code font, bordered inputs
+- Unit badge: dark navy background
+- Tables: striped rows, active column highlighted
+- Race rows: gold text for distance label
+- Responsive: hides outer columns on mobile (<768px), toggle button to show all
+- Toggle arrow: rotates on expand
+
+---
 
 ### Build System
 
